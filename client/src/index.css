@@ -1,0 +1,86 @@
+/* Font settings */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Primary HSL Brand colors */
+  --brand-h: 242;
+  --brand-s: 73%;
+  --brand-l: 59%;
+  
+  --primary-brand: hsl(var(--brand-h), var(--brand-s), var(--brand-l));
+  --primary-brand-hover: hsl(var(--brand-h), var(--brand-s), calc(var(--brand-l) - 8%));
+  --primary-brand-glow: hsla(var(--brand-h), var(--brand-s), var(--brand-l), 0.15);
+  
+  /* Modern CSS variable overrides for custom layout cards */
+  --panel-bg: #ffffff;
+  --panel-border: rgba(0, 0, 0, 0.08);
+  --panel-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  
+  /* Sidebar styles (light theme base) */
+  --sidebar-bg: #f8fafc;
+  --sidebar-active-bg: rgba(79, 70, 229, 0.08);
+  --sidebar-active-color: hsl(var(--brand-h), var(--brand-s), var(--brand-l));
+}
+
+/* Native Bootstrap 5.3 Color Mode Extensions */
+[data-bs-theme='dark'] {
+  --panel-bg: #1e293b;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  
+  /* Sidebar styles (dark theme base) */
+  --sidebar-bg: #0f172a;
+  --sidebar-active-bg: rgba(99, 102, 241, 0.15);
+  --sidebar-active-color: #818cf8;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  margin: 0;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Common premium classes */
+.glass-card {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  border-radius: 16px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.12);
+}
+
+/* Custom interactive input focus glow */
+.custom-input:focus {
+  border-color: var(--primary-brand);
+  box-shadow: 0 0 0 4px var(--primary-brand-glow);
+}
+
+.btn-brand {
+  background-color: var(--primary-brand);
+  color: #ffffff;
+  border: none;
+  font-weight: 500;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-brand:hover {
+  background-color: var(--primary-brand-hover);
+  color: #ffffff;
+}
+
+.btn-brand:active {
+  transform: scale(0.98);
+}

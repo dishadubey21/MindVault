@@ -1,0 +1,326 @@
+{
+  "info": {
+    "_postman_id": "b3e7f91a-f76e-44ef-bf74-c7823f738b72",
+    "name": "MindVault Authentication",
+    "description": "Standard Postman collection mapping all auth endpoints and validation routes for the MindVault PKM workspace.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"vault_pioneer\",\n  \"email\": \"pioneer@gmail.com\",\n  \"password\": \"Secr3tP@ssword\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Registers a new user profile and dispatches a verification token to the console logs."
+      },
+      "response": []
+    },
+    {
+      "name": "Verify Account Email",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/auth/verify-email/{{verificationToken}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "verify-email",
+            "{{verificationToken}}"
+          ]
+        },
+        "description": "Submits the raw verification token generated during registration to mark isVerified: true."
+      },
+      "response": []
+    },
+    {
+      "name": "Login User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "if (pm.response.code === 200 && jsonData.data && jsonData.data.accessToken) {",
+              "    pm.environment.set(\"accessToken\", jsonData.data.accessToken);",
+              "    pm.globals.set(\"accessToken\", jsonData.data.accessToken);",
+              "    console.log(\"Saved new Access Token in variables!\");",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"pioneer@gmail.com\",\n  \"password\": \"Secr3tP@ssword\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Verifies credentials, saves a secure HttpOnly cookie for refreshes, and returns a short-lived access token."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Profile details (Me)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/auth/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "me"
+          ]
+        },
+        "description": "Queries the authenticated user credentials profile."
+      },
+      "response": []
+    },
+    {
+      "name": "Refresh Session Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "if (pm.response.code === 200 && jsonData.data && jsonData.data.accessToken) {",
+              "    pm.environment.set(\"accessToken\", jsonData.data.accessToken);",
+              "    pm.globals.set(\"accessToken\", jsonData.data.accessToken);",
+              "    console.log(\"Rotated Access Token in variables successfully!\");",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/auth/refresh-token",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "refresh-token"
+          ]
+        },
+        "description": "Rotates refresh token cookies and sends a fresh access token."
+      },
+      "response": []
+    },
+    {
+      "name": "Forgot Password Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"pioneer@gmail.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/forgot-password",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "forgot-password"
+          ]
+        },
+        "description": "Dispatches a password reset link token verification URL to the logs."
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Password override",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"password\": \"Secr3tNewP@ssword12\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/reset-password/{{resetToken}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "reset-password",
+            "{{resetToken}}"
+          ]
+        },
+        "description": "Resets the account password using the SHA256 hashed matching URL parameter token."
+      },
+      "response": []
+    },
+    {
+      "name": "Change Session Password",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"Secr3tNewP@ssword12\",\n  \"newPassword\": \"Secr3tFinalP@ssword99!\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/change-password",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "change-password"
+          ]
+        },
+        "description": "Modifies password inside an authenticated session by checking current password."
+      },
+      "response": []
+    },
+    {
+      "name": "Logout Session",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/auth/logout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "logout"
+          ]
+        },
+        "description": "Purges database session token key and clears cookie states."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User Account",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/auth/delete-account",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "delete-account"
+          ]
+        },
+        "description": "Deletes active user accounts and purges all DB sessions."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "verificationToken",
+      "value": "paste_raw_token_here",
+      "type": "string"
+    },
+    {
+      "key": "resetToken",
+      "value": "paste_raw_token_here",
+      "type": "string"
+    }
+  ]
+}

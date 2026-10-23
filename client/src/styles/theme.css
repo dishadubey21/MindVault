@@ -1,0 +1,166 @@
+/* Custom Core Stylesheet and Bootstrap Overrides */
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  min-height: 100vh;
+  margin: 0;
+  transition: var(--transition-all);
+}
+
+/* Typography settings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Card custom SaaS components */
+.glass-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--border-radius-lg);
+  transition: var(--transition-all);
+}
+
+.glass-card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Forms custom styling */
+.custom-input-group {
+  position: relative;
+}
+
+.custom-input {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius-sm) !important;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.85rem;
+  transition: var(--transition-all) !important;
+}
+
+.custom-input:focus {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px var(--brand-primary-glow) !important;
+  outline: none;
+}
+
+.custom-input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.custom-input:disabled {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-muted) !important;
+}
+
+.input-label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary);
+}
+
+.input-error-text {
+  font-size: 0.8rem;
+  color: var(--accent-danger);
+  margin-top: 0.3rem;
+}
+
+/* Buttons custom styling */
+.btn-brand-primary {
+  background-color: var(--brand-primary) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--brand-primary) !important;
+  font-weight: 500;
+  transition: var(--transition-all) !important;
+}
+
+.btn-brand-primary:hover:not(:disabled) {
+  background-color: var(--brand-primary-hover) !important;
+  border-color: var(--brand-primary-hover) !important;
+}
+
+.btn-brand-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-brand-secondary {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  font-weight: 500;
+  transition: var(--transition-all) !important;
+}
+
+.btn-brand-secondary:hover:not(:disabled) {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.btn-brand-secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-brand-danger {
+  background-color: var(--accent-danger) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--accent-danger) !important;
+  font-weight: 500;
+  transition: var(--transition-all) !important;
+}
+
+.btn-brand-danger:hover:not(:disabled) {
+  background-color: var(--accent-danger-hover) !important;
+  border-color: var(--accent-danger-hover) !important;
+}
+
+.btn-brand-danger:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Layout Scrollbars overrides */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Skeleton Loading Pulsing keyframes */
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+    background-color: var(--border-color);
+  }
+  50% {
+    opacity: .4;
+    background-color: var(--bg-tertiary);
+  }
+}
+
+.skeleton-pulse {
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+.skeleton-item {
+  border-radius: var(--border-radius-sm);
+  display: block;
+}
+
